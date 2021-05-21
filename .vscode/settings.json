@@ -1,0 +1,32 @@
+{
+    "python.pythonPath": "venv/bin/python",
+    "telemetry.enableCrashReporter": false,
+    "files.trimTrailingWhitespace": true,
+    "workbench.editor.highlightModifiedTabs": true,
+    "files.autoSave": "afterDelay",
+    "python.formatting.provider": "black",
+    "python.formatting.blackArgs": [
+        "--skip-string-normalization"
+    ],
+    "editor.formatOnSave": true,
+    "files.watcherExclude": {
+        "**/venv": true
+    },
+    "liveServer.settings.ignoreFiles": [
+        "**"
+    ],
+    "files.exclude": {
+        "**/__pycache__": true,
+        "**/*.~sql": true,
+        "**/.ipynb_checkpoints": true,
+        "**/venv": true
+    },
+    "terminal.integrated.env.linux": {
+        "TF_FORCE_GPU_ALLOW_GROWTH": "true",
+        "RANDOM_SEED": "1"
+    },
+    "jupyter.notebookFileRoot": "workspaceFolder",
+    "jupyter.jupyterServerType": "local",
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true
+}

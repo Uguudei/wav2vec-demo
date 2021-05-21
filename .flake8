@@ -1,0 +1,15 @@
+[flake8]
+max-line-length = 88
+select = B,C,E,F,W,B9
+# E501 is not flexible enough, we're using B950 instead
+ignore =
+    E203,
+    E265,  # Ignore "block comment should start with '# '"
+    E266,  # Ignore "too many leading '#' for block comment"
+    E501,  # Ignore "Line too long" in comments
+    E731,  # Ignore "Do not assign a lambda expression, use a def"
+    W503  # Ignore "Line break occurred before a binary operator"
+exclude =
+    ./.git,
+    ./venv,
+    __init__.py

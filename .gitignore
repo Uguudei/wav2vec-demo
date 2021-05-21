@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# model dir
+wav2vec2-base-timit-demo*

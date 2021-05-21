@@ -1,0 +1,5 @@
+# lint/format/types
+black
+flake8
+ipykernel
+ipywidgets
