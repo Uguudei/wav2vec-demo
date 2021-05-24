@@ -1,18 +1,23 @@
+#%%
 import torch
 import torchaudio
 from datasets import load_dataset, load_metric
 from transformers import Wav2Vec2ForCTC, Wav2Vec2Processor
 import re
 
-test_dataset = load_dataset("common_voice", "mn", split="test")
+dataset = load_dataset("common_voice", "mn", split="test")
 wer = load_metric("wer")
 
-processor = Wav2Vec2Processor.from_pretrained("wav2vec2-large-xlsr-mongolian")
-model = Wav2Vec2ForCTC.from_pretrained("wav2vec2-large-xlsr-mongolian")
+#%%
+processor = Wav2Vec2Processor.from_pretrained(
+    "bayartsogt/wav2vec2-large-xlsr-mongolian-v1"
+)
+model = Wav2Vec2ForCTC.from_pretrained("bayartsogt/wav2vec2-large-xlsr-mongolian-v1")
 model.to("cuda")
 
+#%%
 chars_to_ignore_regex = r'[\!\"\'\,\.\«\»\?\-]'
-chars_to_ignore_regex = r'[\!\"\“\,\.\;\:\?\-]'
+# chars_to_ignore_regex = r'[\!\"\“\,\.\;\:\?\-]'
 resampler = torchaudio.transforms.Resample(48_000, 16_000)
 
 
@@ -25,7 +30,9 @@ def speech_file_to_array_fn(batch):
     return batch
 
 
-test_dataset = test_dataset.map(speech_file_to_array_fn)
+dataset = dataset.map(speech_file_to_array_fn)
+
+#%%
 
 
 # Preprocessing the datasets.
@@ -46,11 +53,22 @@ def evaluate(batch):
     return batch
 
 
-result = test_dataset.map(evaluate, batched=True, batch_size=8)
+results = dataset.map(evaluate, batched=True, batch_size=8)
 
-print(
-    "WER: {:2f}".format(
-        100
-        * wer.compute(predictions=result["pred_strings"], references=result["sentence"])
-    )
+#%%
+wer_metric_result = wer.compute(
+    predictions=results["pred_strings"], references=results["sentence"]
 )
+print(f"Test WER: {wer_metric_result:.2%}")
+
+# %%
+sample_result = evaluate(dataset[12])
+wer_metric_result = wer.compute(
+    predictions=[sample_result["pred_strings"][0]],
+    references=[sample_result["sentence"]],
+)
+print(f"Sample WER: {wer_metric_result:.2%}")
+print(f"Predicted : {sample_result['pred_strings'][0]}")
+print(f"Target    : {sample_result['sentence']}")
+
+# %%

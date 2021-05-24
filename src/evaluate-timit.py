@@ -7,7 +7,7 @@ import re
 
 
 # Load data
-timit = load_dataset("timit_asr", split='test').remove_columns(
+dataset = load_dataset("timit_asr", split='test').remove_columns(
     [
         "phonetic_detail",
         "word_detail",
@@ -33,13 +33,11 @@ chars_to_ignore_regex = r'[\,\?\.\!\-\;\:\"]'
 def speech_file_to_array_fn(batch):
     """We need to read the audio files as arrays"""
     batch["text"] = re.sub(chars_to_ignore_regex, '', batch["text"]).lower()
-    speech_array, sampling_rate = torchaudio.load(batch["file"])
-    batch["speech"] = speech_array
-    batch["sampling_rate"] = sampling_rate
+    batch["speech"], batch["sampling_rate"] = torchaudio.load(batch["file"])
     return batch
 
 
-timit = timit.map(speech_file_to_array_fn, num_proc=4)
+dataset = dataset.map(speech_file_to_array_fn, num_proc=4)
 
 #%%
 
@@ -59,7 +57,7 @@ def evaluate(batch):
     return batch
 
 
-results = timit.map(evaluate)
+results = dataset.map(evaluate)
 
 #%%
 wer_metric_result = wer.compute(
@@ -69,10 +67,12 @@ print(f"Test WER: {wer_metric_result:.2%}")
 
 # %%
 
-sample_result = evaluate(timit[21])
+sample_result = evaluate(dataset[210])
 wer_metric_result = wer.compute(
     predictions=[sample_result["pred_text"]], references=[sample_result["text"]]
 )
 print(f"Sample WER: {wer_metric_result:.2%}")
 print(f"Predicted : {sample_result['pred_text']}")
 print(f"Target    : {sample_result['text']}")
+
+# %%
