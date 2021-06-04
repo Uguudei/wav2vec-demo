@@ -9,15 +9,12 @@ dataset = load_dataset("common_voice", "mn", split="test")
 wer = load_metric("wer")
 
 #%%
-processor = Wav2Vec2Processor.from_pretrained(
-    "bayartsogt/wav2vec2-large-xlsr-mongolian-v1"
-)
-model = Wav2Vec2ForCTC.from_pretrained("bayartsogt/wav2vec2-large-xlsr-mongolian-v1")
+processor = Wav2Vec2Processor.from_pretrained("wav2vec2-large-xlsr-53-mongolian-trainer")
+model = Wav2Vec2ForCTC.from_pretrained("wav2vec2-large-xlsr-53-mongolian-trainer")
 model.to("cuda")
 
 #%%
-chars_to_ignore_regex = r'[\!\"\'\,\.\«\»\?\-]'
-# chars_to_ignore_regex = r'[\!\"\“\,\.\;\:\?\-]'
+chars_to_ignore_regex = r'[\,\?\.\!\-\;\:\"\»\'\«]'
 resampler = torchaudio.transforms.Resample(48_000, 16_000)
 
 
