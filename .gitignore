@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 # model dir
-wav2vec2-base-timit-demo*
+wav2vec2-*
