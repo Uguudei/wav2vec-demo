@@ -7,10 +7,11 @@ import re
 
 dataset = load_dataset("common_voice", "mn", split="test")
 wer = load_metric("wer")
+cer = load_metric("cer")
 
 #%%
-processor = Wav2Vec2Processor.from_pretrained("wav2vec2-large-xlsr-53-mongolian-trainer")
-model = Wav2Vec2ForCTC.from_pretrained("wav2vec2-large-xlsr-53-mongolian-trainer")
+processor = Wav2Vec2Processor.from_pretrained("wav2vec2-large-xlsr-53-mongolian")
+model = Wav2Vec2ForCTC.from_pretrained("wav2vec2-large-xlsr-53-mongolian")
 model.to("cuda")
 
 #%%
@@ -58,13 +59,19 @@ wer_metric_result = wer.compute(
 )
 print(f"Test WER: {wer_metric_result:.2%}")
 
+#%%
+cer_metric_result = cer.compute(
+    predictions=results["pred_strings"], references=results["sentence"]
+)
+print(f"Test CER: {cer_metric_result:.2%}")
+
 # %%
-sample_result = evaluate(dataset[12])
-wer_metric_result = wer.compute(
+sample_result = evaluate(dataset[1000])
+cer_metric_result = cer.compute(
     predictions=[sample_result["pred_strings"][0]],
     references=[sample_result["sentence"]],
 )
-print(f"Sample WER: {wer_metric_result:.2%}")
+print(f"Sample CER: {cer_metric_result:.2%}")
 print(f"Predicted : {sample_result['pred_strings'][0]}")
 print(f"Target    : {sample_result['sentence']}")
 

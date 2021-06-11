@@ -165,7 +165,7 @@ def speech_file_to_array_fn(batch):
     return batch
 
 
-dataset_train = dataset_train.map(
+dataset_train = dataset_train.select(list(range(0, 100))).map(
     speech_file_to_array_fn,
     remove_columns=dataset_train.column_names,
     num_proc=16,
@@ -302,7 +302,7 @@ data_collator = DataCollatorCTCWithPadding(processor=processor, padding=True)
 
 #%%
 
-wer_metric = load_metric("wer")
+cer_metric = load_metric("cer")
 
 #%%
 
@@ -317,9 +317,9 @@ def compute_metrics(pred):
     # we do not want to group tokens when computing the metrics
     label_str = processor.batch_decode(pred.label_ids, group_tokens=False)
 
-    wer = wer_metric.compute(predictions=pred_str, references=label_str)
+    cer = cer_metric.compute(predictions=pred_str, references=label_str)
 
-    return {"wer": wer}
+    return {"cer": cer}
 
 
 #%%
@@ -346,7 +346,7 @@ training_args = TrainingArguments(
     per_device_train_batch_size=16,
     gradient_accumulation_steps=2,
     evaluation_strategy="steps",
-    num_train_epochs=30,
+    num_train_epochs=100,
     fp16=True,
     save_steps=500,
     eval_steps=500,
@@ -372,5 +372,5 @@ trainer = Trainer(
 trainer.train()
 
 # Save model to load later
-trainer.save_model(output_dir="./wav2vec2-large-xlsr-53-mongolian-trainer")
-processor.save_pretrained(("./wav2vec2-large-xlsr-53-mongolian-trainer"))
+trainer.save_model(output_dir="./wav2vec2-large-xlsr-53-mongolian")
+processor.save_pretrained(("./wav2vec2-large-xlsr-53-mongolian"))
