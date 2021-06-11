@@ -1,20 +1,21 @@
 {
-    "python.pythonPath": "venv/bin/python",
     "telemetry.enableCrashReporter": false,
-    "files.trimTrailingWhitespace": true,
     "workbench.editor.highlightModifiedTabs": true,
-    "files.autoSave": "afterDelay",
+    "python.pythonPath": "venv/bin/python",
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true,
     "python.formatting.provider": "black",
     "python.formatting.blackArgs": [
         "--skip-string-normalization"
     ],
+    "jupyter.notebookFileRoot": "workspaceFolder",
+    "jupyter.jupyterServerType": "local",
     "editor.formatOnSave": true,
+    "files.trimTrailingWhitespace": true,
+    "files.autoSave": "afterDelay",
     "files.watcherExclude": {
         "**/venv": true
     },
-    "liveServer.settings.ignoreFiles": [
-        "**"
-    ],
     "files.exclude": {
         "**/__pycache__": true,
         "**/*.~sql": true,
@@ -25,8 +26,7 @@
         "TF_FORCE_GPU_ALLOW_GROWTH": "true",
         "RANDOM_SEED": "1"
     },
-    "jupyter.notebookFileRoot": "workspaceFolder",
-    "jupyter.jupyterServerType": "local",
-    "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true
+    "liveServer.settings.ignoreFiles": [
+        "**"
+    ]
 }
