@@ -19,8 +19,8 @@ dataset = load_dataset("timit_asr", split='test').remove_columns(
 )
 
 # Load model
-processor = Wav2Vec2Processor.from_pretrained("./wav2vec2-base-timit-demo-trainer")
-model = Wav2Vec2ForCTC.from_pretrained("./wav2vec2-base-timit-demo-trainer")
+processor = Wav2Vec2Processor.from_pretrained("./wav2vec2-base-timit")
+model = Wav2Vec2ForCTC.from_pretrained("./wav2vec2-base-timit")
 model.to("cuda")
 wer = load_metric("wer")
 

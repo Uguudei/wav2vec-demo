@@ -297,7 +297,7 @@ model.freeze_feature_extractor()
 #%%
 training_args = TrainingArguments(
     # output_dir="/content/gdrive/MyDrive/wav2vec2-base-timit-demo",
-    output_dir="./wav2vec2-base-timit-demo",
+    output_dir="./wav2vec2-base-timit",
     group_by_length=True,
     per_device_train_batch_size=32,
     evaluation_strategy="steps",
@@ -327,5 +327,5 @@ trainer = Trainer(
 trainer.train()
 
 # Save model and load from pretrained
-trainer.save_model(output_dir="./wav2vec2-base-timit-demo-trainer")
-processor.save_pretrained(("./wav2vec2-base-timit-demo-trainer"))
+trainer.save_model(output_dir="./wav2vec2-base-timit")
+processor.save_pretrained(("./wav2vec2-base-timit"))
