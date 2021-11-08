@@ -1,0 +1,11 @@
+# Include packages necessary in production environment
+name: base
+channels:
+  - defaults
+  - pytorch
+dependencies:
+  - torchaudio
+  - pip
+  - pip:
+    - -r requirements.txt
+prefix: /opt/conda
