@@ -4,4 +4,7 @@ channels:
   - defaults
 dependencies:
   - ipykernel
+  - pip
+  - pip:
+    - -r requirements.txt
 prefix: /opt/conda
