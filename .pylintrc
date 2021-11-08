@@ -1,0 +1,7 @@
+[MASTER]
+# C0114 missing-module-docstring
+# C0301 line-too-long
+disable=C0114, C0301
+
+[MESSAGES CONTROL]
+disable=missing-module-docstring, line-too-long
