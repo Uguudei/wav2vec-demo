@@ -128,5 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# vscode settings
+.vscode/settings.json
+
 # model dir
 wav2vec2-*
