@@ -1,3 +1,4 @@
+"""Train model"""
 #%%
 import json
 import random
@@ -8,8 +9,8 @@ from typing import Dict, List, Optional, Union
 # import IPython.display as ipd
 import numpy as np
 import pandas as pd
-import torchaudio
 import torch
+import torchaudio
 from datasets import load_dataset, load_metric
 from IPython.display import HTML, display
 from transformers import (
@@ -21,12 +22,13 @@ from transformers import (
     Wav2Vec2Processor,
 )
 
-from src.vscode_audio import Audio
+# from src.vscode_audio import ipython_audio
 
 #%%
 
 
 def prepare_common_voice(split):
+    """download and load common voice dataset from hugging face"""
     dataset = load_dataset("common_voice", "mn", split=split)
     dataset = dataset.remove_columns(
         [
@@ -54,6 +56,7 @@ print('Test:', dataset_test)
 
 
 def show_random_elements(dataset, num_examples=10):
+    """show random n rows from dataset"""
     assert num_examples <= len(
         dataset
     ), "Can't pick more elements than there are in the dataset."
@@ -64,19 +67,20 @@ def show_random_elements(dataset, num_examples=10):
             pick = random.randint(0, len(dataset) - 1)
         picks.append(pick)
 
-    df = pd.DataFrame(dataset[picks])
-    display(HTML(df.to_html()))
+    data = pd.DataFrame(dataset[picks])
+    display(HTML(data.to_html()))
 
 
 show_random_elements(dataset_train.remove_columns(["file"]))
 
 #%%
 
-chars_to_ignore_regex = r'[\,\?\.\!\-\;\:\"\»\'\«]'
+CHARS_TO_IGNORE_REGEX = r'[\,\?\.\!\-\;\:\"\»\'\«]'
 
 
 def remove_special_characters(batch):
-    batch["text"] = re.sub(chars_to_ignore_regex, '', batch["text"]).lower()
+    """replace special characters with none"""
+    batch["text"] = re.sub(CHARS_TO_IGNORE_REGEX, '', batch["text"]).lower()
     return batch
 
 
@@ -86,6 +90,7 @@ show_random_elements(dataset_train.remove_columns(["file"]))
 
 
 def replace_characters(batch):
+    """replace latin 'h' with 'х' cyrillic"""
     batch["text"] = batch["text"].replace('h', 'х')
     return batch
 
@@ -118,7 +123,7 @@ vocab_test = dataset_test.map(
 
 vocab_list = list(set(vocab_train["vocab"][0]) | set(vocab_test["vocab"][0]))
 vocab_dict = {v: k for k, v in enumerate(vocab_list)}
-vocab_dict
+print(vocab_dict)
 
 #%%
 vocab_dict["|"] = vocab_dict[" "]
@@ -129,7 +134,7 @@ vocab_dict["[PAD]"] = len(vocab_dict)
 print(len(vocab_dict))
 
 #%%
-with open('./data/vocab_mn.json', 'w') as vocab_file:
+with open('./data/vocab_mn.json', 'w', encoding='UTF-8') as vocab_file:
     json.dump(vocab_dict, vocab_file)
 
 #%%
@@ -182,7 +187,7 @@ rand_int = random.randint(0, len(dataset_train))
 sample_audio = np.asarray(dataset_train[rand_int]["speech"])
 
 # display(ipd.Audio(data=sample_audio, autoplay=True, rate=16000))
-Audio(sample_audio, 16000)
+# ipython_audio(sample_audio, 16000)
 
 #%%
 rand_int = random.randint(0, len(dataset_train))
@@ -235,7 +240,8 @@ class DataCollatorCTCWithPadding:
         processor (:class:`~transformers.Wav2Vec2Processor`)
             The processor used for proccessing the data.
         padding (:obj:`bool`, :obj:`str` or :class:`~transformers.tokenization_utils_base.PaddingStrategy`, `optional`, defaults to :obj:`True`):
-            Select a strategy to pad the returned sequences (according to the model's padding side and padding index)
+            Select a strategy to pad the returned sequences (according to the model's padding side
+            and padding index)
             among:
             * :obj:`True` or :obj:`'longest'`: Pad to the longest sequence in the batch (or no padding if only a single
               sequence if provided).
@@ -308,6 +314,7 @@ cer_metric = load_metric("cer")
 
 
 def compute_metrics(pred):
+    """compute score metrics"""
     pred_logits = pred.predictions
     pred_ids = np.argmax(pred_logits, axis=-1)
 

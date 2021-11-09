@@ -1,9 +1,10 @@
-import IPython.display
-import numpy as np
 import json
 
+import IPython.display
+import numpy as np
 
-def Audio(audio: np.ndarray, sr: int):
+
+def ipython_audio(audio: np.ndarray, sr: int):
     """
     Use instead of IPython.display.Audio as a workaround for VS Code.
     `audio` is an array with shape (channels, samples) or just (samples,) for mono.
