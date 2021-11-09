@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/main/containers
 {
-	"name": "Pytorch GPU",
+	"name": "Tensorflow GPU",
 	"runArgs": [
 		"--cpus=24",
 		"--memory=60g",
@@ -54,7 +54,7 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "umask 0002 && conda env update -n base -f environment.yml",
-	// "postCreateCommand": "pip3 --disable-pip-version-check --no-cache-dir install -r requirements.txt",
+	"postCreateCommand": "pip3 --disable-pip-version-check --no-cache-dir install -r requirements.txt",
 
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode"

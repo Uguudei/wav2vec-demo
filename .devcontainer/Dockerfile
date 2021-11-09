@@ -33,7 +33,7 @@ RUN rm -rf /tmp/library-scripts
 #     && pip install --no-cache-dir pipx \
 #     && pipx reinstall-all
 
-# Copy requirements.txt (if found) to a temp location so we update the environment. Also
-# copy "noop.txt" so the COPY instruction does not fail if no requirements.txt exists.
-COPY .devcontainer/requirements.txt* .devcontainer/noop.txt /tmp/conda-tmp/
-RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/conda-tmp/requirements.txt
+# Copy requirements.txt (if found) to a temp location so we update the environment.
+COPY .devcontainer/requirements.txt* /tmp/pip-tmp/
+RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
+    && rm -rf /tmp/pip-tmp
