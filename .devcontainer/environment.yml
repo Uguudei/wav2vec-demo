@@ -3,7 +3,6 @@ name: base
 channels:
   - defaults
 dependencies:
-  - ipykernel
   - pip
   - pip:
     - -r requirements.txt
