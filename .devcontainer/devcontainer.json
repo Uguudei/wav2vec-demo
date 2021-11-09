@@ -28,7 +28,6 @@
 		"python.linting.pydocstylePath": "/usr/local/py-utils/bin/pydocstyle",
 		"python.linting.pylintPath": "/usr/local/py-utils/bin/pylint",
 		"python.formatting.provider": "black",
-		"python.formatting.blackArgs": ["--skip-string-normalization"],
 		"editor.formatOnSave": true,
 		"files.autoSave": "afterDelay",
 		"files.trimTrailingWhitespace": true,
