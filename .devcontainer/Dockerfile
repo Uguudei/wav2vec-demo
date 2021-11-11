@@ -1,5 +1,8 @@
 FROM tensorflow/tensorflow:2.7.0-gpu
 
+# Set Python timezone
+ENV TZ "Asia/Ulaanbaatar"
+
 # Options for setup script
 ARG INSTALL_ZSH="true"
 ARG UPGRADE_PACKAGES="true"
