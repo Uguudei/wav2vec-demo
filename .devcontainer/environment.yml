@@ -3,7 +3,9 @@ name: base
 channels:
   - defaults
 dependencies:
+  - ipykernel
   - pip
   - pip:
-    - -r requirements.txt
+    - pep8-naming
+    - flake8-isort
 prefix: /opt/conda

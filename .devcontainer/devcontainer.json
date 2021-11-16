@@ -1,23 +1,27 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
 // https://github.com/microsoft/vscode-dev-containers/tree/main/containers
 {
-	"name": "Tensorflow GPU",
+	"name": "Pytorch GPU",
+	// Set CPU & memory limit to prevent the server from going down.
 	"runArgs": [
-		"--cpus=24",
-		"--memory=60g",
+		"--cpus=16",
+		"--memory=32g",
 		"--gpus=all"
 	],
 	"build": {
 		"context": "..",
 		"dockerfile": "Dockerfile"
 	},
+	// Mount /data if you need to save and load big training data. Create a project-specific directory in /data.
+	// "mounts": ["source=/data,target=/data,type=bind"],
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
-		"python.pythonPath": "/usr/local/bin/python",
+		"python.pythonPath": "/opt/conda/bin/python",
 		"python.languageServer": "Pylance",
 		"python.linting.enabled": true,
 		"python.linting.flake8Enabled": true,
+        "python.formatting.provider": "black",
 		"python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
 		"python.formatting.blackPath": "/usr/local/py-utils/bin/black",
 		"python.formatting.yapfPath": "/usr/local/py-utils/bin/yapf",
@@ -27,15 +31,13 @@
 		"python.linting.pycodestylePath": "/usr/local/py-utils/bin/pycodestyle",
 		"python.linting.pydocstylePath": "/usr/local/py-utils/bin/pydocstyle",
 		"python.linting.pylintPath": "/usr/local/py-utils/bin/pylint",
-		"python.formatting.provider": "black",
 		"editor.formatOnSave": true,
 		"files.autoSave": "afterDelay",
 		"files.trimTrailingWhitespace": true,
 		"files.exclude": {
 			"**/__pycache__": true,
 			"**/*.~sql": true,
-			"**/.ipynb_checkpoints": true,
-			"**/venv": true
+			"**/.ipynb_checkpoints": true
 		},
 		"jupyter.jupyterServerType": "local",
 		"jupyter.notebookFileRoot": "workspaceFolder"
@@ -53,8 +55,8 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "umask 0002 && conda env update -n base -f environment.yml",
-	"postCreateCommand": "pip3 --disable-pip-version-check --no-cache-dir install -r requirements.txt",
+	"postCreateCommand": "umask 0002 && conda env update -n base -f environment.yml",
+	// "postCreateCommand": "pip3 --disable-pip-version-check --no-cache-dir install -r requirements.txt",
 
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode"
