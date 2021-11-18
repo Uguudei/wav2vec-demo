@@ -13,7 +13,7 @@
 		"dockerfile": "Dockerfile"
 	},
 	// Mount /data if you need to save and load big training data. Create a project-specific directory in /data.
-	// "mounts": ["source=/data,target=/data,type=bind"],
+	"mounts": ["source=/data,target=/data,type=bind"],
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
