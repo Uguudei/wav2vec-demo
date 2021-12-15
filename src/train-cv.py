@@ -6,7 +6,6 @@ import re
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Union
 
-# import IPython.display as ipd
 import numpy as np
 import pandas as pd
 import torch
@@ -22,7 +21,7 @@ from transformers import (
     Wav2Vec2Processor,
 )
 
-# from src.vscode_audio import ipython_audio
+from src.vscode_audio import ipython_audio
 
 #%%
 
@@ -170,7 +169,7 @@ def speech_file_to_array_fn(batch):
     return batch
 
 
-dataset_train = dataset_train.select(list(range(0, 100))).map(
+dataset_train = dataset_train.map(
     speech_file_to_array_fn,
     remove_columns=dataset_train.column_names,
     num_proc=16,
@@ -185,9 +184,8 @@ dataset_test = dataset_test.map(
 
 rand_int = random.randint(0, len(dataset_train))
 sample_audio = np.asarray(dataset_train[rand_int]["speech"])
+ipython_audio(sample_audio, 16000)
 
-# display(ipd.Audio(data=sample_audio, autoplay=True, rate=16000))
-# ipython_audio(sample_audio, 16000)
 
 #%%
 rand_int = random.randint(0, len(dataset_train))
@@ -381,3 +379,5 @@ trainer.train()
 # Save model to load later
 trainer.save_model(output_dir="./wav2vec2-large-xlsr-53-mongolian")
 processor.save_pretrained(("./wav2vec2-large-xlsr-53-mongolian"))
+
+# %%
