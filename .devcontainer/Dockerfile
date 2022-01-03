@@ -24,10 +24,6 @@ ENV PATH=${PATH}:${PIPX_BIN_DIR}
 RUN bash /tmp/library-scripts/python-debian.sh "none" "/opt/conda" "${PIPX_HOME}" "${USERNAME}" "true" \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-# [Optional] Uncomment this section install Oracle instant client
-# RUN bash /tmp/library-scripts/oracle-instant-client-debian.sh \
-#     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
-
 # Remove library scripts for final image
 RUN rm -rf /tmp/library-scripts
 
