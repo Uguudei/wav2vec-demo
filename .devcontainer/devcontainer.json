@@ -15,48 +15,53 @@
 	// Mount /data if you need to save and load big training data. Create a project-specific directory in /data.
 	"mounts": ["source=/data,target=/data,type=bind"],
 
-	// Set *default* container specific settings.json values on container create.
-	"settings": {
-		"python.defaultInterpreterPath": "/opt/conda/bin/python",
-		"python.languageServer": "Pylance",
-		"python.linting.enabled": true,
-		"python.linting.flake8Enabled": true,
-        "python.formatting.provider": "black",
-		"python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
-		"python.formatting.blackPath": "/usr/local/py-utils/bin/black",
-		"python.formatting.yapfPath": "/usr/local/py-utils/bin/yapf",
-		"python.linting.banditPath": "/usr/local/py-utils/bin/bandit",
-		"python.linting.flake8Path": "/usr/local/py-utils/bin/flake8",
-		"python.linting.mypyPath": "/usr/local/py-utils/bin/mypy",
-		"python.linting.pycodestylePath": "/usr/local/py-utils/bin/pycodestyle",
-		"python.linting.pydocstylePath": "/usr/local/py-utils/bin/pydocstyle",
-		"python.linting.pylintPath": "/usr/local/py-utils/bin/pylint",
-		"editor.formatOnSave": true,
-		"files.autoSave": "afterDelay",
-		"files.trimTrailingWhitespace": true,
-		"files.exclude": {
-			"**/__pycache__": true,
-			"**/*.~sql": true,
-			"**/.ipynb_checkpoints": true
-		},
-		"jupyter.jupyterServerType": "local",
-		"jupyter.notebookFileRoot": "workspaceFolder"
-	},
+	// Configure tool-specific properties.
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			// Set *default* container specific settings.json values on container create.
+			"settings": {
+				"python.defaultInterpreterPath": "/opt/conda/bin/python",
+				"python.languageServer": "Pylance",
+				"python.linting.enabled": true,
+				"python.linting.flake8Enabled": true,
+				"python.formatting.provider": "black",
+				"python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
+				"python.formatting.blackPath": "/usr/local/py-utils/bin/black",
+				"python.linting.flake8Path": "/usr/local/py-utils/bin/flake8",
+				"python.linting.mypyPath": "/usr/local/py-utils/bin/mypy",
+				"python.linting.pylintPath": "/usr/local/py-utils/bin/pylint",
+				"editor.formatOnSave": true,
+				"editor.codeActionsOnSave": {
+					"source.organizeImports": true
+				},
+				"files.autoSave": "afterDelay",
+				"files.trimTrailingWhitespace": true,
+				"files.trimFinalNewlines": true,
+				"files.exclude": {
+					"**/__pycache__": true,
+					"**/*.~sql": true,
+					"**/.ipynb_checkpoints": true
+				},
+				"jupyter.jupyterServerType": "local",
+				"jupyter.notebookFileRoot": "workspaceFolder"
+			},
 
-	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [
-		"ms-python.python",
-		"ms-python.vscode-pylance",
-		"davidanson.vscode-markdownlint",
-		"visualstudioexptteam.vscodeintellicode"
-	],
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"davidanson.vscode-markdownlint",
+				"visualstudioexptteam.vscodeintellicode"
+			]
+		}
+	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "umask 0002 && conda env update -n base -f environment.yml",
-	// "postCreateCommand": "pip3 --disable-pip-version-check --no-cache-dir install -r requirements.txt",
 
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode"
